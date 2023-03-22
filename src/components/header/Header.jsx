@@ -17,8 +17,18 @@ const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const openMobileMenuHandler = () => {
+    setMobileMenu(true);
+    setShowSearch(false);
+  };
+
+  const openSearchHandler = () => {
+    setMobileMenu(false);
+    setShowSearch(true);
+  };
+
   return (
-    <header className="header">
+    <header className={`header ${mobileMenu ? "mobile_view" : " "} ${show} `}>
       <ContentWrapper>
         <div className="logo">
           <img src={logo} alt="logo" />
@@ -28,13 +38,20 @@ const Header = () => {
           <li className="menu_item">Movies</li>
           <li className="menu_item">Tv Shows</li>
           <li className="menu_item">
-            <HiOutlineSearch className="search_icon" />
+            <HiOutlineSearch
+              className="search_icon"
+              onClick={openSearchHandler}
+            />
           </li>
         </ul>
 
         <div className="mobile_menu_items">
           <HiOutlineSearch />
-          {mobileMenu ? <VscChromeClose /> : <SlMenu />}
+          {mobileMenu ? (
+            <VscChromeClose onClick={() => setMobileMenu(false)} />
+          ) : (
+            <SlMenu onClick={openMobileMenuHandler} />
+          )}
         </div>
       </ContentWrapper>
     </header>
