@@ -16,9 +16,10 @@ import PageNotFound from "./pages/404/PageNotFound";
 function App() {
   const dispatch = useDispatch();
   const { url } = useSelector((state) => state.home);
-  console.log(url?.results);
+
   useEffect(() => {
     fetchApiConfig();
+    genersCall();
   }, []);
 
   const fetchApiConfig = () => {
@@ -33,6 +34,24 @@ function App() {
     });
   };
 
+  const genersCall = async () => {
+    let promises = [];
+    let endpoints = ["tv", "movie"];
+    let allGeners = {};
+
+    endpoints.forEach((e) => {
+      promises.push(fetchDataFromApi(`/genre/${e}/list`));
+    });
+
+    const data = await Promise.all(promises);
+
+    data.map(({ genres }) => {
+      return genres.map((item) => (allGeners[item.id] = item));
+    });
+
+    dispatch(getGenres(allGeners));
+  };
+
   return (
     <BrowserRouter>
       <Header />
@@ -43,7 +62,7 @@ function App() {
         <Route path="/explore/:mediaType" element={<Explore />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
-      {/* <Footer /> */}
+      <Footer />
     </BrowserRouter>
   );
 }
