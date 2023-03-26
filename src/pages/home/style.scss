@@ -1,0 +1,14 @@
+.carousel_section {
+  position: relative;
+  margin-bottom: 70px;
+  & > .content_wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  font-size: 24px;
+  font-weight: 600;
+  color: #fff;
+}
