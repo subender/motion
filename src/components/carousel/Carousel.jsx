@@ -14,8 +14,10 @@ import PosterFallback from "../../assets/no-poster.png";
 import "./style.scss";
 import CircleRating from "../circleRating/CircleRating";
 import Genres from "../genres/Genres";
-const Carousel = ({ data, loading }) => {
+
+const Carousel = ({ data, loading, endpoint }) => {
   const carouselContainer = useRef();
+  console.log(endpoint);
   const { url } = useSelector((state) => state.home);
   const navigate = useNavigate();
   const navigation = (direction) => {
@@ -63,7 +65,9 @@ const Carousel = ({ data, loading }) => {
                 <div
                   key={item.id}
                   className="carousel_item"
-                  onClick={() => navigate(`/${item?.media_type}/${item?.id}`)}
+                  onClick={() =>
+                    navigate(`/${item?.media_type || endpoint}/${item?.id}`)
+                  }
                 >
                   <div className="poster_block">
                     <Img src={posterUrl} />
